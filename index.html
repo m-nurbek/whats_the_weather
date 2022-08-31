@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What's The Weather</title>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js' crossorigin='anonymous'></script>
+    
+    <style>
+        :root {
+            background-color: white;
+            box-sizing: border-box;
+            font-size: calc(0.3em+0.8vw);
+        }
+        *,::before,::after {
+            box-sizing: inherit;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            color: black;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        header {
+            background-color: #353a40;
+            color: white;
+            display: block;
+            width: 100%;
+            padding: 0.2em 1.4em;
+        }
+
+        main {
+            background-image: url("clouds.jpg");
+            background-repeat: no-repeat;
+            background-size:cover;
+            background-color: #cccccc;
+            /* height: calc(20em + 22vh); */
+        }
+
+        .wrapper {
+            width: 85%;
+            margin: 0 auto;
+            padding: 10rem 0;
+            color: #292c2e;
+        }
+        .wrapper > h1 {
+            font-size: 3rem;
+            font-weight: normal;
+            margin: 0;
+        }
+
+        .wrapper > p {
+            font-size: 1.1rem;
+            margin: 0;
+            display: block;
+            padding: 0.6em 0 0;
+        }
+        .wrapper > hr {
+            border: 0; 
+            height: 1px; 
+            background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+            background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+            background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+            background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0); 
+        }
+        .inp-container {
+            display: flex;
+        }
+        .inp-container > button,
+        .inp-container > input {
+            padding: 0.5em;
+            margin: 0;
+            font-size: 1.0rem;
+            border: transparent;
+        }
+        .inp-container > button {
+            cursor: pointer;
+        }
+        .inp-container > button:active {
+            background-color: #cccccc;
+        }
+        .inp-container > input:hover, .inp-container > input:focus {
+            outline: 2px solid lightskyblue;
+        }
+        .inp-container > input {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h2>What's the weather app</h2>
+</header>
+<main>
+    <div class="wrapper">
+        <h1>Find the weather</h1>
+        <p>You can find live weather information about any place without reloading the page.</p>
+
+        <br><hr><br>
+
+        <div class="inp-container">
+            <button>@</button>
+            <input id="searchInput" type="text" placeholder="Enter any city name">
+        </div>
+    </div>
+</main>
+<div id="profile"></div>
+    
+<script>
+$(document).ready(function() {
+    $("#searchInput").on("keyup", function(e) {
+        let cityname = e.target.value
+        const APIKey = '11dab5c0cca4465b3b500a0a95044434'
+        // Make a request to the server
+        $.ajax({
+            url:`http://api.openweathermap.org/data/2.5/weather?q=${cityname}&appid=${APIKey}`
+
+        }).done(function(weatherdata) {
+            console.log(weatherdata);
+            $("#profile").html(weatherdata.weather[0].description)
+        })
+    })
+})
+</script>
+</body>
+</html>
